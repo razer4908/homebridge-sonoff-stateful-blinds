@@ -1,0 +1,1 @@
+# homebridge-sonoff-stateful-blinds
