@@ -143,6 +143,7 @@ statefulsonoffblinds.prototype.setFinalBlindsState = function() {
   this.log("Successfully moved to target position: %s", this.currentTargetPosition);
   // save state
   this.storage.setItemSync(this.name, this.lastPosition);
+  this.log("Successfully saved state");
   return true;
 }
 
