@@ -4,7 +4,7 @@ var Service, Characteristic, HomebridgeAPI;
 module.exports = function(homebridge){
         Service = homebridge.hap.Service;
         Characteristic = homebridge.hap.Characteristic;
-
+	HomebridgeAPI = homebridge;
         homebridge.registerAccessory('homebridge-sonoff-stateful-blinds', 'StatefulSonoffBlinds', statefulsonoffblinds);
 }
 
