@@ -1,6 +1,6 @@
 {
   "name": "homebridge-sonoff-stateful-blinds",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Sonoff Basic, Dual or 4CH/4CH Pro homebridge stateful plugin for blinds",
   "main": "index.js",
   "scripts": {
