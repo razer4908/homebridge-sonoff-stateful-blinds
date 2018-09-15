@@ -22,7 +22,7 @@ function statefulsonoffblinds(log, config){
     this.durationBMD = config["time_botton_margin_down"]; 
 
     this.lastPosition = 0; // Last know position, (0-100%)
-    this.currentPositionState = 2; // 0 = Stoped , 1=Moving Up , 2 Moving Down.
+    this.currentPositionState = 2; // 2 = Stoped , 0=Moving Up , 1 Moving Down.
     this.currentTargetPosition = 0; //  Target Position, (0-100%)
     
     // Device information
@@ -46,7 +46,7 @@ function statefulsonoffblinds(log, config){
             .on('get', this.getCurrentPosition.bind(this));
 
     // Get state
-    // 0 = Stopped; 1 = Up; 2 = Down;
+    // 2 = Stopped; 0 = Up; 1 = Down;
     this.service
             .getCharacteristic(Characteristic.PositionState)
             .on('get', this.getPositionState.bind(this));
@@ -63,6 +63,7 @@ function statefulsonoffblinds(log, config){
        this.log("No previous saved state. lastPosition set to default: %s", this.lastPosition);
     } else {
        this.lastPosition = cachedState;
+       this.currentTargetPosition = cachedState;
        this.log("Previous saved state found. lastPosition set to: %s", this.lastPosition);
     }
 }
