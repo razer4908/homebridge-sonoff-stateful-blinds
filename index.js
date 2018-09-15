@@ -1,4 +1,4 @@
-var request = require('request');
+var request = require('/usr/lib/node_modules/request');
 var Service, Characteristic, HomebridgeAPI;
 
 module.exports = function(homebridge){
@@ -8,7 +8,7 @@ module.exports = function(homebridge){
         homebridge.registerAccessory('homebridge-sonoff-stateful-blinds', 'StatefulSonoffBlinds', statefulsonoffblinds);
 }
 
-function sonoffblinds(log, config){
+function statefulsonoffblinds(log, config){
 
     this.log = log; // log file
     this.name = config["name"]; 
