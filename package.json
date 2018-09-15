@@ -21,6 +21,7 @@
   "homepage": "https://github.com/radebebek/homebridge-sonoff-blinds#readme",
   "keywords": [
     "homebridge",
+    "homebridge-plugin",
     "sonoff",
     "blinds"
   ],
