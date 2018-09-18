@@ -16,12 +16,15 @@ function statefulsonoffblinds(log, config){
     this.downURL = config["down_url"];
     this.stopURLup = config["stop_url_up"];
     this.stopURLdown = config["stop_url_down"];
+    this.sonoffURL = config["sonoff_url"];
+    this.sonoffUpRelay = config["sonoff_up_relay"];
+    this.sonoffDownRelay = config["sonoff_down_relay"];
     this.durationUp = config["time_up"];
     this.durationDown = config["time_down"];
     this.durationBMU = config["time_botton_margin_up"];
     this.durationBMD = config["time_botton_margin_down"]; 
 
-    this.lastPosition = 0; // Last know position, (0-100%)
+    this.lastPosition = 100; // Last know position, (0-100%)
     this.currentPositionState = 2; // 2 = Stoped , 0=Moving Up , 1 Moving Down.
     this.currentTargetPosition = 0; //  Target Position, (0-100%)
     
@@ -120,15 +123,23 @@ statefulsonoffblinds.prototype.setTargetPosition = function(pos, callback) {
          duration = (this.lastPosition-this.currentTargetPosition) / 100 * withoutmarginetimeDOWN;
     }  
   }
+  duration = Math.round(duration);
 
-  this.log("Duration: %s ms", duration);
+  this.log("Duration: %s", duration);
   this.log(moveUp ? "Moving up" : "Moving down");
   this.service.setCharacteristic(Characteristic.PositionState, (moveUp ? 1 : 0));
   this.currentPositionState = (moveUp ? 1 : 0);
   
-  setTimeout(this.setFinalBlindsState.bind(this), duration);    
-  this.httpRequest((moveUp ? this.upURL : this.downURL));
-  clearTimeout(this.duration);    
+  //setTimeout(this.setFinalBlindsState.bind(this), duration);    
+  //this.httpRequest((moveUp ? this.upURL : this.downURL));
+  //clearTimeout(this.duration);   
+
+  this.httpRequest((moveUp ?
+     this.sonoffURL+"cm?cmnd=Backlog%20Power"+this.sonoffUpRelay+"%20On;Delay%20"+duration+";Power"+this.sonoffUpRelay+"%20Off" : 
+     this.sonoffURL+"cm?cmnd=Backlog%20Power"+this.sonoffDownRelay+"%20On;Delay%20"+duration+";Power"+this.sonoffDownRelay+"%20Off"  
+     ));
+  setTimeout(this.setFinalBlindsState.bind(this), parseInt(duration)*100);    
+
   callback();
 
   return true;
@@ -136,7 +147,7 @@ statefulsonoffblinds.prototype.setTargetPosition = function(pos, callback) {
 
 statefulsonoffblinds.prototype.setFinalBlindsState = function() {
   
-  this.httpRequest((moveUp ? this.stopURLup : this.stopURLdown));
+  //this.httpRequest((moveUp ? this.stopURLup : this.stopURLdown));
   this.currentPositionState = 2;
   this.service.setCharacteristic(Characteristic.PositionState, 2);
   this.service.setCharacteristic(Characteristic.CurrentPosition, this.currentTargetPosition);
