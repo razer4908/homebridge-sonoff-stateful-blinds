@@ -12,10 +12,9 @@ Explanations in config file for one blinds sonoff 4ch:
 ```
 		"accessory": "StatefulSonoffBlinds",  // It must be for every service
 		"name": "Blidns Kitchen", // Name of Blinds 
-		"up_url": "http://192.168.2.10/control?cmd=event,4PowerOn", // Url for active Gpio 4 for moving up blinds
-		"down_url": "http://192.168.2.10/control?cmd=event,5PowerOn",// Url for active Gpio 5 for moving down blinds
-		"stop_url_up": "http://192.168.2.10/control?cmd=event,4PowerOff",// Url for deactive Gpio 4 for moving up blinds
-		"stop_url_down": "http://192.168.2.10/control?cmd=event,5PowerOff",// Url for deactive Gpio 5 for moving down blinds
+		"sonoff_url": "http://sonoff4-blinds.local/", //URL of the selected Sonoff device
+            	"sonoff_up_relay": "3", // Relay number for the UP motor
+            	"sonoff_down_relay": "4", // Relay number for the DOWN motor
 		"time_up": 20000, // Total time from complete closing to full opening.
 		"time_down": 20000, // Total time from complete opening to full closing.
 		"time_botton_margin_up": 0, // Picture down

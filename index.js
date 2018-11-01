@@ -12,10 +12,10 @@ function statefulsonoffblinds(log, config){
 
     this.log = log; // log file
     this.name = config["name"]; 
-    this.upURL = config["up_url"];
-    this.downURL = config["down_url"];
-    this.stopURLup = config["stop_url_up"];
-    this.stopURLdown = config["stop_url_down"];
+    //this.upURL = config["up_url"];
+    //this.downURL = config["down_url"];
+    //this.stopURLup = config["stop_url_up"];
+    //this.stopURLdown = config["stop_url_down"];
     this.sonoffURL = config["sonoff_url"];
     this.sonoffUpRelay = config["sonoff_up_relay"];
     this.sonoffDownRelay = config["sonoff_down_relay"];
@@ -130,14 +130,11 @@ statefulsonoffblinds.prototype.setTargetPosition = function(pos, callback) {
   this.service.setCharacteristic(Characteristic.PositionState, (moveUp ? 1 : 0));
   this.currentPositionState = (moveUp ? 1 : 0);
   
-  //setTimeout(this.setFinalBlindsState.bind(this), duration);    
-  //this.httpRequest((moveUp ? this.upURL : this.downURL));
-  //clearTimeout(this.duration);   
-
   this.httpRequest((moveUp ?
      this.sonoffURL+"cm?cmnd=Backlog%20Power"+this.sonoffUpRelay+"%20On;Delay%20"+duration+";Power"+this.sonoffUpRelay+"%20Off" : 
      this.sonoffURL+"cm?cmnd=Backlog%20Power"+this.sonoffDownRelay+"%20On;Delay%20"+duration+";Power"+this.sonoffDownRelay+"%20Off"  
      ));
+  // setTimeouts expects milliseconds, Sonoff expects tenths of second, so a 100 factor
   setTimeout(this.setFinalBlindsState.bind(this), parseInt(duration)*100);    
 
   callback();
@@ -147,7 +144,6 @@ statefulsonoffblinds.prototype.setTargetPosition = function(pos, callback) {
 
 statefulsonoffblinds.prototype.setFinalBlindsState = function() {
   
-  //this.httpRequest((moveUp ? this.stopURLup : this.stopURLdown));
   this.currentPositionState = 2;
   this.service.setCharacteristic(Characteristic.PositionState, 2);
   this.service.setCharacteristic(Characteristic.CurrentPosition, this.currentTargetPosition);
